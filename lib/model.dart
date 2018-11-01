@@ -12,8 +12,8 @@ class Repository {
   Repository.fromJson(Map json)
     :  name = json['name'],
       description = json['description'],
-      ownerAvatar = json['avatar_url'],
-      ownerLogin = json['login'],
+      ownerAvatar = json['owner']['avatar_url'],
+      ownerLogin = json['owner']['login'],
       forksCount = json['forks_count'],
       stargazersCount = json['stargazers_count'];
 }

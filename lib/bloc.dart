@@ -6,10 +6,18 @@ import 'package:rxdart/rxdart.dart';
 class RepositoryBloc {
   final API api;
 
-  Stream<List<Repository>> _results = Stream.empty();
-  Stream<List<Repository>> get results => _results;
+  StreamController<List<Repository>> _repositoryController = StreamController<List<Repository>>.broadcast();
+  Sink<List<Repository>> get _inRepositories => _repositoryController.sink;
+  Stream<List<Repository>> get results => _repositoryController.stream;
   
   RepositoryBloc(this.api){
-    _results = Observable(results).asBroadcastStream();
+    api.get().then((repositories){
+      print(repositories);
+      _inRepositories.add(repositories);
+    });
+  }
+
+  void dispose(){
+    _repositoryController.close();
   }
 }
